@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30 кроків добра — м'який чек-лист</title>
+<style>
+  :root{
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --font-body: -apple-system, 'Segoe UI Rounded', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --bg-top:#f4f1fb;
+    --bg-bottom:#eef7f1;
+    --lavender:#c9bfea;
+    --lavender-deep:#a496d6;
+    --mint:#a8dfc9;
+    --mint-deep:#6fbfa0;
+    --peach:#f7d9c4;
+    --card:#ffffff;
+    --card-soft:#fbfaff;
+    --text:#4a4560;
+    --text-soft:#8a83a0;
+    --shadow: 0 10px 30px -12px rgba(122, 108, 180, 0.18);
+    --radius: 20px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    font-family: var(--font-body);
+    color:var(--text);
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    min-height:100vh;
+    padding: 32px 16px 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    text-align:center;
+    padding: 8px 8px 28px;
+    position:relative;
+  }
+
+  .breath{
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffffff, var(--mint) 55%, var(--lavender) 100%);
+    box-shadow: 0 0 0 8px rgba(168,223,201,0.18), 0 0 0 16px rgba(201,191,234,0.12);
+    animation: breathe 6.5s ease-in-out infinite;
+  }
+
+  @keyframes breathe{
+    0%,100%{ transform: scale(0.86); }
+    50%{ transform: scale(1.08); }
+  }
+
+  h1{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-size: clamp(1.6rem, 5vw, 2.15rem);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+    color: #423c5c;
+  }
+
+  .subtitle{
+    color: var(--text-soft);
+    font-size: 0.98rem;
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* ---------- PROGRESS ---------- */
+  .progress-card{
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+
+  .progress-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom: 10px;
+    font-size:0.92rem;
+  }
+
+  .progress-label{ color: var(--text-soft); }
+  .progress-count{ font-weight:700; color: var(--lavender-deep); font-size:1rem; }
+
+  .progress-track{
+    width:100%;
+    height: 12px;
+    background: #eee9f9;
+    border-radius: 999px;
+    overflow:hidden;
+  }
+
+  .progress-fill{
+    height:100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--mint-deep), var(--lavender));
+    width:0%;
+    transition: width 0.5s ease;
+  }
+
+  .progress-msg{
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    font-style: italic;
+    min-height: 1.2em;
+  }
+
+  /* ---------- ACTIONS ---------- */
+  .actions{
+    display:flex;
+    gap: 10px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+
+  button{
+    font-family: var(--font-body);
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  .btn-primary{
+    flex: 1 1 220px;
+    background: linear-gradient(135deg, var(--mint-deep), var(--lavender-deep));
+    color:#fff;
+    padding: 14px 20px;
+    border-radius: 999px;
+    font-size: 0.98rem;
+    box-shadow: 0 8px 20px -8px rgba(111,191,160,0.55);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px -8px rgba(111,191,160,0.65); }
+  .btn-primary:active{ transform: translateY(0); }
+
+  .btn-ghost{
+    background: var(--card);
+    color: var(--text-soft);
+    padding: 14px 18px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow);
+  }
+  .btn-ghost:hover{ color: var(--lavender-deep); }
+
+  /* ---------- FOCUS BANNER ---------- */
+  .focus-banner{
+    display:none;
+    background: linear-gradient(135deg, #fff, var(--card-soft));
+    border: 1.5px dashed var(--mint-deep);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+  }
+  .focus-banner.show{ display:block; }
+  .focus-banner b{ color:var(--text); }
+
+  /* ---------- CATEGORIES ---------- */
+  .category{
+    margin-bottom: 22px;
+  }
+
+  .category-header{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+
+  .category-emoji{ font-size:1.25rem; }
+
+  .category-title{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-size: 1.05rem;
+    color:#423c5c;
+  }
+
+  .category-card{
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .step{
+    display:flex;
+    gap: 14px;
+    align-items:flex-start;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f2eef9;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  .step:last-child{ border-bottom:none; }
+
+  .step.picked{
+    background: linear-gradient(90deg, rgba(168,223,201,0.16), rgba(201,191,234,0.16));
+    box-shadow: inset 3px 0 0 var(--mint-deep);
+  }
+
+  .checkbox{
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--lavender);
+    margin-top: 2px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: all 0.25s ease;
+    background: #fff;
+  }
+
+  .checkbox svg{
+    width: 13px;
+    height:13px;
+    opacity:0;
+    transform: scale(0.5);
+    transition: all 0.2s ease;
+  }
+
+  .step.done .checkbox{
+    background: linear-gradient(135deg, var(--mint-deep), var(--lavender-deep));
+    border-color: transparent;
+  }
+  .step.done .checkbox svg{ opacity:1; transform: scale(1); }
+
+  .step-text{ flex:1; cursor:pointer; }
+
+  .step-title{
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .step-desc{
+    font-size: 0.83rem;
+    color: var(--text-soft);
+    margin-top: 3px;
+    line-height:1.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .step.done .step-title{
+    text-decoration: line-through;
+    text-decoration-color: var(--lavender-deep);
+    text-decoration-thickness: 1.5px;
+    color: var(--text-soft);
+    opacity: 0.65;
+  }
+  .step.done .step-desc{ opacity: 0.45; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center;
+    margin-top: 30px;
+    color: var(--text-soft);
+    font-size: 0.8rem;
+    line-height:1.6;
+  }
+
+  .celebrate{
+    display:none;
+    text-align:center;
+    padding: 22px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--mint-deep);
+  }
+  .celebrate.show{ display:block; }
+
+  @media (prefers-reduced-motion: reduce){
+    .breath{ animation:none; }
+    .step, .progress-fill, .btn-primary{ transition:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="breath" aria-hidden="true"></div>
+    <h1>30 кроків добра</h1>
+    <p class="subtitle">Маленькі, ніжні дії, щоб потроху повернути собі відчуття опори. Не всі одразу — досить одного кроку за раз.</p>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="progress-label">Твій прогрес</span>
+      <span class="progress-count"><span id="doneCount">0</span> із 30</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-msg" id="progressMsg"></div>
+  </div>
+
+  <div class="celebrate" id="celebrate">🌿 Усі 30 кроків зроблено. Пишайся собою — це справді багато.</div>
+
+  <div class="actions">
+    <button class="btn-primary" id="randomBtn">🎲 Обрати 3 кроки на сьогодні</button>
+    <button class="btn-ghost" id="resetBtn">Скинути все</button>
+  </div>
+
+  <div class="focus-banner" id="focusBanner">
+    🌸 <b>Сьогоднішній фокус:</b> три кроки нижче підсвічені. Спробуй виконати хоча б один — цього вже достатньо.
+  </div>
+
+  <div id="categories"></div>
+
+  <footer>
+    Твій прогрес зберігається лише в цьому браузері.<br>
+    Якщо тобі зараз дуже важко — поруч має бути людина, а не лише чек-лист. 💛
+  </footer>
+
+</div>
+
+<script>
+const DATA = [
+  { emoji:"🛋️", title:"Побут та фізичний простір (повертаємо контроль)", items:[
+    { t:"Заправити ліжко", d:"Навіть якщо це єдине, що вдасться зробити за ранок, у кімнаті вже з'явиться острівець порядку." },
+    { t:"Відчинити вікно на 5 хвилин", d:"Свіже повітря та кисень допомагають знизити рівень стресу." },
+    { t:"Прибрати одну річ на місце", d:"Не треба мити всю квартиру — просто поставте горнятко в раковину або підніміть одяг зі стільця." },
+    { t:"Замінити постіль або рушник", d:"Свіжість навколо дає підсвідоме відчуття оновлення." },
+    { t:"Викинути одну непотрібну річ", d:"Чек, обгортку чи порожню баночку — очищення простору знижує ментальне навантаження." },
+  ]},
+  { emoji:"🛁", title:"Турбота про тіло (повертаємося в реальність)", items:[
+    { t:"Випити склянку чистої води", d:"Дегідратація посилює відчуття втоми та тривоги." },
+    { t:"Вмити обличчя прохолодною водою", d:"Це простий спосіб стимулювати блукаючий нерв і трохи \"заземлитися\"." },
+    { t:"Почистити зуби", d:"Коли важко з базовою гігієною, ця дія — уже величезна перемога." },
+    { t:"Розчесати волосся або зробити легкий самомасаж голови", d:"Це повертає контакт із власним тілом." },
+    { t:"Прийняти теплий душ", d:"Дозвольте воді просто стікати по тілу, змиваючи напругу." },
+    { t:"З'їсти щось поживне", d:"Навіть якщо немає апетиту — кілька горіхів, шматочок сиру чи фрукт, щоб підтримати сили." },
+  ]},
+  { emoji:"🏃‍♂️", title:"Рух та заземлення (активуємо гормони)", items:[
+    { t:"Посидіти 5 хвилин на сонці", d:"Денне світло блокує вироблення мелатоніну вдень і допомагає регулювати циркадні ритми." },
+    { t:"Потягнутися в ліжку", d:"Зробіть кілька м'яких рухів усім тілом, розправте плечі." },
+    { t:"Зробити 10 повільних кроків по кімнаті", d:"Просто пройдіться, відчуваючи стопами підлогу." },
+    { t:"Змінити позу", d:"Якщо ви довго лежали, сядьте; якщо сиділи — підніміться бодай на хвилину." },
+    { t:"Вийти на вулицю без мети", d:"Навіть якщо це просто вихід на ганок або 5 хвилин навколо будинку." },
+  ]},
+  { emoji:"🧠", title:"Ментальне розвантаження (зменшуємо тиск)", items:[
+    { t:"Записати всі думки на папір", d:"Метод \"зливу думок\" (brain dump): випишіть усе, що лякає чи дратує, щоб звільнити голову." },
+    { t:"Дихати за квадратом", d:"4 секунди вдих, 4 — затримка, 4 — видих, 4 — затримка. Достатньо 3–4 циклів, щоб заспокоїти нервову систему." },
+    { t:"Дозволити собі нічого не робити", d:"Офіційно скажіть собі: \"Зараз я маю повне право просто лежати без почуття провини\"." },
+    { t:"Увімкнути приємний фоновий шум", d:"Звуки дощу, лісу чи спокійна інструментальна музика замість тривожних новин." },
+    { t:"Подивитися на щось красиве чи живе", d:"На кімнатну рослину, небо за вікном, домашнього улюбленця." },
+    { t:"Обійняти когось або себе", d:"Обійми стимулюють вироблення окситоцину. Якщо нікого немає поруч, можна міцно загорнутися в теплий плед." },
+  ]},
+  { emoji:"📱", title:"Цифровий простір та соціум (захищаємо кордони)", items:[
+    { t:"Поставити телефон на режим \"Не турбувати\" на годину", d:"Очистіть цей час від інформаційного шуму." },
+    { t:"Відписатися від одного тривожного каналу чи профілю", d:"Менше токсичного контенту — більше спокою." },
+    { t:"Написати або відповісти одній близькій людині", d:"Достатньо короткого \"Привіт, я на зв'язку, але поки без ресурсу\"." },
+    { t:"Послухати одну улюблену пісню", d:"Музика має прямий доступ до наших емоційних центрів." },
+  ]},
+  { emoji:"✨", title:"Фокус на крихтах позитиву", items:[
+    { t:"Записати ОДНУ річ, за яку ви вдячні сьогодні", d:"Сонце, смачна кава, тепла ковдра — підійде будь-яка дрібниця." },
+    { t:"Похвалити себе за будь-яку дію", d:"Навіть за те, що ви просто прочитали цей текст." },
+    { t:"Скласти план лише на НАСТУПНУ ГОДИНУ", d:"Не на тиждень, не на день. Наприклад: \"Зараз я просто п'ю чай\"." },
+    { t:"Вчасно лягти в ліжко", d:"Навіть якщо не спиться, просто вимкніть світло і дайте тілу відпочити в горизонтальному положенні." },
+  ]},
+];
+
+const STORAGE_KEY = "30krokiv_progress_v1";
+let state = {};
+let storageAvailable = false;
+
+function checkStorage(){
+  try{
+    const testKey = "__storage_test__";
+    window.localStorage.setItem(testKey, "1");
+    window.localStorage.removeItem(testKey);
+    return true;
+  }catch(e){ return false; }
+}
+
+storageAvailable = checkStorage();
+
+function loadState(){
+  state = {};
+  if(!storageAvailable) return;
+  try{
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    state = raw ? JSON.parse(raw) : {};
+  }catch(e){ state = {}; }
+}
+
+function saveState(){
+  if(!storageAvailable) return;
+  try{ window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ /* збереження недоступне — прогрес не буде запам'ятовано в цій сесії */ }
+}
+
+function idFor(catIdx, itemIdx){ return catIdx + "-" + itemIdx; }
+
+const MESSAGES = [
+  "Кожен крок має значення, навіть найменший.",
+  "Ти вже тут — і це вже дія.",
+  "Немає норми. Є лише твій темп.",
+  "Один крок сьогодні — це достатньо.",
+  "Турбота про себе не потребує поспіху.",
+];
+
+function render(){
+  const root = document.getElementById("categories");
+  root.innerHTML = "";
+  DATA.forEach((cat, ci) => {
+    const catEl = document.createElement("div");
+    catEl.className = "category";
+
+    const header = document.createElement("div");
+    header.className = "category-header";
+    header.innerHTML = `<span class="category-emoji">${cat.emoji}</span><span class="category-title">${cat.title}</span>`;
+    catEl.appendChild(header);
+
+    const card = document.createElement("div");
+    card.className = "category-card";
+
+    cat.items.forEach((item, ii) => {
+      const id = idFor(ci, ii);
+      const done = !!state[id];
+
+      const step = document.createElement("div");
+      step.className = "step" + (done ? " done" : "");
+      step.dataset.id = id;
+
+      step.innerHTML = `
+        <div class="checkbox" role="checkbox" aria-checked="${done}" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 12 9 18 20 6"></polyline>
+          </svg>
+        </div>
+        <div class="step-text">
+          <div class="step-title">${item.t}</div>
+          <div class="step-desc">${item.d}</div>
+        </div>
+      `;
+
+      const toggle = () => {
+        state[id] = !state[id];
+        saveState();
+        render();
+      };
+
+      step.querySelector(".checkbox").addEventListener("click", toggle);
+      step.querySelector(".checkbox").addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
+      });
+      step.querySelector(".step-text").addEventListener("click", toggle);
+
+      card.appendChild(step);
+    });
+
+    catEl.appendChild(card);
+    root.appendChild(catEl);
+  });
+
+  applyPicked();
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = DATA.reduce((n, c) => n + c.items.length, 0);
+  const done = Object.values(state).filter(Boolean).length;
+  const pct = Math.round((done / total) * 100);
+
+  document.getElementById("doneCount").textContent = done;
+  document.getElementById("progressFill").style.width = pct + "%";
+
+  const msgEl = document.getElementById("progressMsg");
+  msgEl.textContent = done === 0 ? "Почни з одного кроку — обери той, що здається найлегшим." : MESSAGES[done % MESSAGES.length];
+
+  const celebrate = document.getElementById("celebrate");
+  celebrate.classList.toggle("show", done === total);
+}
+
+let pickedIds = [];
+
+function pickRandomThree(){
+  const allIds = [];
+  DATA.forEach((cat, ci) => cat.items.forEach((_, ii) => {
+    const id = idFor(ci, ii);
+    if(!state[id]) allIds.push(id);
+  }));
+
+  if(allIds.length === 0){
+    pickedIds = [];
+    document.getElementById("focusBanner").classList.remove("show");
+    applyPicked();
+    return;
+  }
+
+  const pool = [...allIds];
+  const picks = [];
+  const n = Math.min(3, pool.length);
+  for(let i = 0; i < n; i++){
+    const idx = Math.floor(Math.random() * pool.length);
+    picks.push(pool.splice(idx, 1)[0]);
+  }
+  pickedIds = picks;
+  document.getElementById("focusBanner").classList.add("show");
+  applyPicked();
+
+  const firstStep = document.querySelector(`.step[data-id="${picks[0]}"]`);
+  if(firstStep){ firstStep.scrollIntoView({ behavior:"smooth", block:"center" }); }
+}
+
+function applyPicked(){
+  document.querySelectorAll(".step").forEach(el => {
+    el.classList.toggle("picked", pickedIds.includes(el.dataset.id));
+  });
+}
+
+document.getElementById("randomBtn").addEventListener("click", pickRandomThree);
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if(confirm("Скинути всі відмітки прогресу? Це не можна відмінити.")){
+    state = {};
+    pickedIds = [];
+    document.getElementById("focusBanner").classList.remove("show");
+    saveState();
+    render();
+  }
+});
+
+function init(){
+  try{
+    loadState();
+  }catch(e){
+    state = {};
+  }
+  try{
+    render();
+  }catch(e){
+    const root = document.getElementById("categories");
+    if(root){
+      root.innerHTML = '<p style="text-align:center;color:#8a83a0;padding:20px;">Не вдалося завантажити список кроків. Спробуй перезавантажити сторінку.</p>';
+    }
+  }
+  if(!storageAvailable){
+    const msg = document.getElementById("progressMsg");
+    if(msg){ msg.textContent = "Прогрес не зберігатиметься після перезавантаження в цьому режимі перегляду."; }
+  }
+}
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", init);
+}else{
+  init();
+}
+</script>
+</body>
+</html>
